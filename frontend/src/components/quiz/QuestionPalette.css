@@ -1,0 +1,14 @@
+.palette-summary {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  font-size: 12px;
+}
+.palette-summary div { display: flex; flex-direction: column; gap: 4px; }
+.palette-summary strong { font-size: 18px; font-weight: 800; }
+.palette-summary span  { color: var(--muted); }
+.success { color: var(--success); }
+.accent  { color: var(--accent); }

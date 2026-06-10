@@ -1,0 +1,6 @@
+subject,topic,text,option_a,option_b,option_c,option_d,correct_option,difficulty,explanation
+General Intelligence,Analogy,Book : Library :: Painting : ?,Shop,Gallery,Museum,Studio,B,easy,Books are kept in a library just as paintings are displayed in a gallery.
+Quantitative Aptitude,Percentage,What is 20% of 500?,80,90,100,110,C,easy,20% of 500 = (20/100)*500 = 100
+English Language,Error Spotting,"She (A) is knowing (B) the answer (C) to the question (D)",She,is knowing,the answer,to the question,B,easy,Know is stative; use 'knows' not 'is knowing'.
+General Awareness,History,Who was the first Prime Minister of India?,Sardar Patel,Jawaharlal Nehru,Dr. Rajendra Prasad,B.R. Ambedkar,B,easy,Jawaharlal Nehru was the first Prime Minister of India (1947–1964).
+Reasoning Ability,Puzzles,"If A > B, B > C, then which is smallest?",A,B,C,Cannot determine,C,easy,A > B > C means C is the smallest.

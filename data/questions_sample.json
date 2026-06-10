@@ -1,0 +1,44 @@
+[
+  {
+    "subject": "General Intelligence",
+    "topic": "Analogy",
+    "text": "Doctor : Stethoscope :: Carpenter : ?",
+    "difficulty": "medium",
+    "correct_option": "C",
+    "explanation": "A stethoscope is the primary tool of a doctor; a saw is the primary tool of a carpenter.",
+    "choices": [
+      { "label": "A", "text": "Hammer" },
+      { "label": "B", "text": "Nail" },
+      { "label": "C", "text": "Saw" },
+      { "label": "D", "text": "Wood" }
+    ]
+  },
+  {
+    "subject": "Quantitative Aptitude",
+    "topic": "Simple Interest",
+    "text": "Find SI on ₹1000 at 5% per annum for 3 years.",
+    "difficulty": "easy",
+    "correct_option": "B",
+    "explanation": "SI = (P × R × T) / 100 = (1000 × 5 × 3) / 100 = ₹150",
+    "choices": [
+      { "label": "A", "text": "₹100" },
+      { "label": "B", "text": "₹150" },
+      { "label": "C", "text": "₹200" },
+      { "label": "D", "text": "₹250" }
+    ]
+  },
+  {
+    "subject": "General Awareness",
+    "topic": "Polity",
+    "text": "How many articles were there in the original Indian Constitution?",
+    "difficulty": "medium",
+    "correct_option": "C",
+    "explanation": "The original Indian Constitution had 395 articles, 22 parts, and 8 schedules.",
+    "choices": [
+      { "label": "A", "text": "340" },
+      { "label": "B", "text": "380" },
+      { "label": "C", "text": "395" },
+      { "label": "D", "text": "410" }
+    ]
+  }
+]

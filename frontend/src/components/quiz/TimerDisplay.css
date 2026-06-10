@@ -1,0 +1,6 @@
+.timer-block { display: flex; gap: 24px; align-items: center; }
+.timer-item { text-align: right; }
+.timer-item span { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.timer-item strong { font-size: 22px; font-weight: 800; color: var(--accent); }
+.timer-item.warning strong { color: var(--danger); animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.6 } }

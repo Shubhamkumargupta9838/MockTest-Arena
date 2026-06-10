@@ -1,0 +1,14 @@
+.upload-card { max-width: 800px; }
+.upload-form { display: flex; flex-direction: column; gap: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 13px; font-weight: 600; color: var(--muted); }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.hint { font-size: 11px; margin-top: 4px; line-height: 1.6; }
+.upload-result {
+  margin-top: 20px; padding: 16px;
+  border-radius: 12px; font-size: 14px;
+}
+.upload-result.success { background: rgba(38,208,124,0.1); border: 1px solid rgba(38,208,124,0.3); color: var(--success); }
+.upload-result.error   { background: rgba(255,93,93,0.1);  border: 1px solid rgba(255,93,93,0.3);  color: var(--danger); }
+.error-list { margin-top: 8px; padding-left: 20px; }
+.error-list li { margin-top: 4px; }
