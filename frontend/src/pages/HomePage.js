@@ -25,6 +25,9 @@ export default function HomePage() {
             <div className="hero-actions">
               <Link to="/exams/ssc" className="btn btn-primary">Start Free Mock</Link>
               <Link to="/exams/banking" className="btn btn-secondary">Explore Banking</Link>
+              <Link to="/payment" className="btn btn-primary">
+                Try Payment
+              </Link>
             </div>
             <div className="hero-badges">
               <span>Section Timers</span>

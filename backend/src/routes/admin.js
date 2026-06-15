@@ -36,10 +36,38 @@ router.get('/meta', async (req, res) => {
       `SELECT t.id, t.name, t.subject_id FROM topics t ORDER BY t.subject_id, t.name`
     );
 
-    res.json({ exams, sections, topics });
+    const [categories] = await db.query(
+      `SELECT id, name, slug, description
+       FROM exam_categories
+       WHERE is_active = 1
+       ORDER BY name`
+    );
+
+    res.json({ exams, sections, topics, categories });
   } catch (err) {
     console.error('GET /admin/meta:', err);
     res.status(500).json({ error: 'Failed to load metadata' });
+  }
+});
+
+router.get('/tests', async (req, res) => {
+  try {
+    const { mode } = req.query;
+    let query = `SELECT t.id, t.title, t.slug, t.mode, t.description, t.is_active, e.name AS exam_name
+                 FROM tests t
+                 JOIN exams e ON e.id = t.exam_id`;
+    const params = [];
+    if (mode && ['mock', 'practice'].includes(mode)) {
+      query += ` WHERE t.mode = ?`;
+      params.push(mode);
+    }
+    query += ` ORDER BY t.id DESC`;
+
+    const [tests] = await db.query(query, params);
+    res.json({ tests });
+  } catch (err) {
+    console.error('GET /admin/tests:', err);
+    res.status(500).json({ error: 'Failed to load tests' });
   }
 });
 
@@ -136,6 +164,77 @@ router.post('/tests', async (req, res) => {
   } catch (err) {
     console.error('POST /admin/tests:', err);
     res.status(500).json({ error: 'Failed to create test' });
+  } finally {
+    conn.release();
+  }
+});
+
+router.post('/exams', async (req, res) => {
+  const conn = await db.getConnection();
+  try {
+    const { name, description = '', category_id, category_name } = req.body;
+
+    if (!name || !(category_id || category_name)) {
+      return res.status(400).json({ error: 'Exam name and category are required' });
+    }
+
+    let categoryId = null;
+    if (category_id) {
+      categoryId = parseInt(category_id, 10);
+      if (Number.isNaN(categoryId)) {
+        return res.status(400).json({ error: 'Invalid category selected' });
+      }
+      const [[category]] = await conn.query(
+        `SELECT id FROM exam_categories WHERE id = ? AND is_active = 1`,
+        [categoryId]
+      );
+      if (!category) {
+        return res.status(400).json({ error: 'Selected category not found' });
+      }
+    } else {
+      const categorySlug = slugify(category_name);
+      if (!categorySlug) {
+        return res.status(400).json({ error: 'Invalid category name' });
+      }
+      const [[existingCategory]] = await conn.query(
+        `SELECT id FROM exam_categories WHERE slug = ?`,
+        [categorySlug]
+      );
+      if (existingCategory) {
+        categoryId = existingCategory.id;
+      } else {
+        const [createdCategory] = await conn.query(
+          `INSERT INTO exam_categories (name, slug, description, is_active)
+           VALUES (?, ?, ?, 1)`,
+          [category_name.trim(), categorySlug, '']
+        );
+        categoryId = createdCategory.insertId;
+      }
+    }
+
+    const examSlug = slugify(name);
+    if (!examSlug) {
+      return res.status(400).json({ error: 'Exam name contains invalid characters' });
+    }
+
+    const [[existingExam]] = await conn.query(
+      `SELECT id FROM exams WHERE slug = ?`,
+      [examSlug]
+    );
+    if (existingExam) {
+      return res.status(400).json({ error: 'An exam with this name already exists. Please choose a different title.' });
+    }
+
+    const [inserted] = await conn.query(
+      `INSERT INTO exams (category_id, name, slug, description, is_active)
+       VALUES (?, ?, ?, ?, 1)`,
+      [categoryId, name.trim(), examSlug, description.trim()]
+    );
+
+    res.json({ status: 'ok', examId: inserted.insertId, slug: examSlug });
+  } catch (err) {
+    console.error('POST /admin/exams:', err);
+    res.status(500).json({ error: 'Failed to create exam' });
   } finally {
     conn.release();
   }

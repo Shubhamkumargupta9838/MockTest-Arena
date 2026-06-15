@@ -48,19 +48,22 @@ async function importQuestion(conn, item, selectedSubjectId, selectedTopicId, er
   const topicId = selectedTopicId || await getOrCreateTopic(conn, subjectId, item.topic);
   const text = (item.text || '').trim();
   if (!text) { errors.push('Question text is required'); return 0; }
-
+  const imageUrl = (item.image_url || '').trim();
+  const questionType = imageUrl ? 'image' : 'text';
   const [[existing]] = await conn.query(
     `SELECT id FROM questions WHERE subject_id = ? AND text = ?`, [subjectId, text]
   );
   if (existing) return 0;
 
-  const [res] = await conn.query(
-    `INSERT INTO questions (subject_id, topic_id, text, difficulty, correct_option, explanation)
-     VALUES (?, ?, ?, ?, ?, ?)`,
+    const [res] = await conn.query(
+    `INSERT INTO questions (subject_id, topic_id, text, difficulty, correct_option, explanation, image_url, question_type)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     [subjectId, topicId, text,
      item.difficulty || 'easy',
      (item.correct_option || 'A').toUpperCase(),
-     item.explanation || '']
+     item.explanation || '',
+     imageUrl || null,
+     questionType]
   );
   const questionId = res.insertId;
 

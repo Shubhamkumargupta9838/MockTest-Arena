@@ -7,24 +7,18 @@ export default function AdminExams() {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ name: '', description: '', category_id: '' });
   const [categories, setCategories] = useState([]);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [examsRes, metaRes] = await Promise.all([
-          fetch('/api/exams', { credentials: 'include' }),
-          fetch('/api/admin/meta', { credentials: 'include' }),
-        ]);
-
-        const [examsData, metaData] = await Promise.all([
-          examsRes.json(),
-          metaRes.json(),
-        ]);
-
-        if (examsData) setExams(examsData);
+        const metaRes = await fetch('/api/admin/meta', { credentials: 'include' });
+        const metaData = await metaRes.json();
         if (metaData && metaData.exams) {
-          const cats = [...new Map(metaData.exams.map(e => [e.category_name, e.category_name])).values()];
-          setCategories(cats);
+          setExams(metaData.exams);
+        }
+        if (metaData && metaData.categories) {
+          setCategories(metaData.categories);
         }
       } catch (err) {
         console.error('Failed to load exams:', err);
@@ -35,6 +29,42 @@ export default function AdminExams() {
 
     fetchData();
   }, []);
+
+  const handleCreateExam = async (e) => {
+    e.preventDefault();
+    setMessage(null);
+
+    if (!formData.name.trim() || !formData.category_id) {
+      setMessage({ type: 'error', text: 'Exam name and category are required.' });
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/admin/exams', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          description: formData.description.trim(),
+          category_id: formData.category_id,
+        }),
+      });
+      const data = await res.json();
+      if (data.status === 'ok') {
+        const category = categories.find(cat => String(cat.id) === String(formData.category_id));
+        setExams([{ id: data.examId, name: formData.name.trim(), description: formData.description.trim(), category_name: category?.name || '' }, ...exams]);
+        setFormData({ name: '', description: '', category_id: '' });
+        setMessage({ type: 'success', text: 'Exam created successfully.' });
+        setShowForm(false);
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Failed to create exam.' });
+      }
+    } catch (err) {
+      console.error('Create exam failed:', err);
+      setMessage({ type: 'error', text: err.message || 'Failed to create exam.' });
+    }
+  };
 
   if (loading) return <div>Loading exams…</div>;
 
@@ -48,7 +78,7 @@ export default function AdminExams() {
       </div>
 
       {showForm && (
-        <div className="form-card">
+        <form className="form-card" onSubmit={handleCreateExam}>
           <h3>Create New Exam</h3>
           <div className="form-group">
             <label>Exam Name</label>
@@ -74,11 +104,16 @@ export default function AdminExams() {
               onChange={e => setFormData({ ...formData, category_id: e.target.value })}
             >
               <option value="">— Select category —</option>
-              {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+              {categories.map(cat => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
             </select>
           </div>
-          <button className="btn btn-primary">Create Exam</button>
-        </div>
+          <button type="submit" className="btn btn-primary">Create Exam</button>
+          {message && (
+            <p className={message.type === 'error' ? 'error-text' : 'success-text'}>{message.text}</p>
+          )}
+        </form>
       )}
 
       <div className="items-table">
@@ -88,7 +123,12 @@ export default function AdminExams() {
           <div>Description</div>
           <div>Actions</div>
         </div>
-        {exams && exams.map(exam => (
+        {exams.length === 0 && (
+          <div className="table-empty">
+            <p>No exams found.</p>
+          </div>
+        )}
+        {exams.map(exam => (
           <div key={exam.id} className="table-row">
             <div>{exam.name}</div>
             <div className="muted">{exam.category_name || '—'}</div>

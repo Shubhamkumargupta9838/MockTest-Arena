@@ -12,6 +12,7 @@ import CreateTestPage from './pages/CreateTestPage';
 import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFoundPage from './pages/NotFoundPage';
+import PaymentPage from './pages/PaymentPage';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/exams/:categorySlug/:examSlug/practice" element={<TestListPage mode="practice" />} />
           <Route path="/exams/:categorySlug/:examSlug/mock"     element={<TestListPage mode="mock" />} />
           <Route path="/results/:attemptId"                     element={<ResultPage />} />
+          <Route path="/payment"                                element={<PaymentPage />} />
           <Route path="/admin/login"                            element={<LoginPage />} />
           <Route path="/admin/dashboard"                        element={<AdminDashboard />} />
           <Route path="/admin/upload-questions"                 element={<UploadPage />} />

@@ -69,8 +69,8 @@ export default function AdminUpload() {
             required
           />
           <p className="muted hint">
-            CSV columns: subject, topic, text, option_a, option_b, option_c, option_d, correct_option, difficulty<br />
-            JSON: array of objects with same fields plus choices: [{"label", "text"}]
+            CSV columns: subject, topic, text, option_a, option_b, option_c, option_d, correct_option, difficulty, image_url, question_type<br />
+            JSON: add image_url and question_type fields (e.g. &#123;"image_url": "https://...", "question_type": "image"&#125;)
           </p>
         </div>
 

@@ -16,6 +16,8 @@ const { router: authRoutes, requireAuth } = require('./routes/auth');
 const app  = express();
 const PORT = process.env.PORT || 5000;
 
+
+
 // ── Core middleware ───────────────────────────────────────
 app.use(requestLogger);
 app.use(cors({
@@ -32,6 +34,10 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
 }));
+
+// ── for payment routes ─────────────────────────────────────
+const paymentRoutes = require('./routes/payments');
+app.use('/api/payment', paymentRoutes);
 
 // ── Rate limiting ─────────────────────────────────────────
 const apiLimiter = rateLimit({

@@ -9,3 +9,7 @@
 .table-empty p { margin: 0; color: var(--muted); }
 .filter-row { display: flex; gap: 12px; margin-bottom: 20px; }
 .filter-row select { padding: 10px 12px; border: 1px solid rgba(0, 0, 0, 0.14); border-radius: 10px; color: var(--dark); }
+.muted{
+    
+    text: var(--dark);
+}
