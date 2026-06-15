@@ -13,12 +13,21 @@ export default function Layout() {
             <span className="brand-tag">SSC · Railway · Banking</span>
           </div>
           <nav className="nav-links">
-            <NavLink to="/exams/ssc"     className="nav-link">SSC</NavLink>
+            <NavLink to="/exams/ssc" className="nav-link">SSC</NavLink>
             <NavLink to="/exams/railway" className="nav-link">Railway</NavLink>
             <NavLink to="/exams/banking" className="nav-link">Banking</NavLink>
+            <NavLink to="/typing" className="nav-link" style={{
+              backgroundColor: "#eac055",
+              padding: "6px 12px",
+              borderRadius: "6px",
+              color: "black",
+              textDecoration: "none"
+            }}>Typing</NavLink>
           </nav>
           <div className="header-cta">
             <Link to="/" className="btn btn-primary">Free Mock Test</Link>
+            <Link to="/user/login" className="nav-link" style={{marginLeft:"5px"}}>Login</Link>
+            <Link to="/user/register" className="nav-link" style={{marginLeft:"5px"}}>Register</Link>
           </div>
         </div>
       </header>

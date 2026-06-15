@@ -3,20 +3,20 @@ import { Link } from 'react-router-dom';
 import './UploadPage.css';
 
 export default function UploadPage() {
-  const [meta, setMeta]             = useState({ exams: [], subjects: [], topics: [] });
-  const [file, setFile]             = useState(null);
-  const [examId, setExamId]         = useState('');
-  const [subjectId, setSubjectId]   = useState('');
-  const [topicId, setTopicId]       = useState('');
+  const [meta, setMeta] = useState({ exams: [], subjects: [], topics: [] });
+  const [file, setFile] = useState(null);
+  const [examId, setExamId] = useState('');
+  const [subjectId, setSubjectId] = useState('');
+  const [topicId, setTopicId] = useState('');
   const [practiceTitle, setPracticeTitle] = useState('');
-  const [result, setResult]         = useState(null);
+  const [result, setResult] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     fetch('/api/upload/meta', { credentials: 'include' })
       .then(r => r.json())
       .then(setMeta)
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const filteredTopics = subjectId
@@ -31,9 +31,9 @@ export default function UploadPage() {
 
     const formData = new FormData();
     formData.append('file', file);
-    if (examId)       formData.append('exam_id', examId);
-    if (subjectId)    formData.append('subject_id', subjectId);
-    if (topicId)      formData.append('topic_id', topicId);
+    if (examId) formData.append('exam_id', examId);
+    if (subjectId) formData.append('subject_id', subjectId);
+    if (topicId) formData.append('topic_id', topicId);
     if (practiceTitle) formData.append('practice_title', practiceTitle);
 
     try {
@@ -120,7 +120,10 @@ export default function UploadPage() {
             </button>
           </form>
           <div className="muted hint" style={{ marginTop: 12 }}>
-            Need a new full mock or practice test? <Link to="/admin/create-test">Create one here</Link>.
+            Need a new full mock or practice test? <Link to="/admin/create-test" style={{
+              color: "blue",
+              textDecoration: "underline"
+            }}>Create one here</Link>.
           </div>
 
           {result && (

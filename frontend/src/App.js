@@ -12,6 +12,7 @@ import CreateTestPage from './pages/CreateTestPage';
 import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFoundPage from './pages/NotFoundPage';
+import TypingTest from './components/TypingTest/TypingTest';
 import PaymentPage from './pages/PaymentPage';
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/admin/dashboard"                        element={<AdminDashboard />} />
           <Route path="/admin/upload-questions"                 element={<UploadPage />} />
           <Route path="/admin/create-test"                      element={<CreateTestPage />} />
+          <Route path="/typing"                                 element={<TypingTest />} />
           <Route path="*"                                       element={<NotFoundPage />} />
         </Route>
 
