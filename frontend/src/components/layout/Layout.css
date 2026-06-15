@@ -33,7 +33,7 @@
   transition: all 0.2s ease;
 }
 .nav-link:hover, .nav-link.active {
-  color: var(--text); background: rgba(255,255,255,0.06);
+  color: var(--text); background: rgba(175, 161, 161, 0.06);
 }
 .site-main { flex: 1; }
 .site-footer {

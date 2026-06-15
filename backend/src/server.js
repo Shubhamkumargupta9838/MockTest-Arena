@@ -62,7 +62,7 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`\n🚀 MockTest Arena API  →  http://localhost:${PORT}`);
-  console.log(`   React frontend      →  http://localhost:3000\n`);
+  // console.log(`   React frontend      →  http://localhost:3000\n`);
 });
 
 module.exports = app;

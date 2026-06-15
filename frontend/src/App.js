@@ -10,6 +10,7 @@ import ResultPage from './pages/ResultPage';
 import UploadPage from './pages/UploadPage';
 import CreateTestPage from './pages/CreateTestPage';
 import NotFoundPage from './pages/NotFoundPage';
+import TypingTest from './components/TypingTest/TypingTest';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/results/:attemptId"                     element={<ResultPage />} />
           <Route path="/admin/upload-questions"                 element={<UploadPage />} />
           <Route path="/admin/create-test"                      element={<CreateTestPage />} />
+          <Route path="/typing"                                 element={<TypingTest />} />
           <Route path="*"                                       element={<NotFoundPage />} />
         </Route>
 
