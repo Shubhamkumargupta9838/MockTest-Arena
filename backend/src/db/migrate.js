@@ -103,19 +103,21 @@ async function migrate() {
     )`,
 
     // ── Question ───────────────────────────────────────────
-    `CREATE TABLE IF NOT EXISTS questions (
-      id             INT AUTO_INCREMENT PRIMARY KEY,
-      subject_id     INT NOT NULL,
-      topic_id       INT,
-      text           TEXT NOT NULL,
-      difficulty     ENUM('easy','medium','hard') DEFAULT 'easy',
-      correct_option CHAR(1) NOT NULL,
-      explanation    TEXT,
-      is_active      TINYINT(1) DEFAULT 1,
-      created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE CASCADE,
-      FOREIGN KEY (topic_id)   REFERENCES topics(id) ON DELETE SET NULL
-    )`,
+`CREATE TABLE IF NOT EXISTS questions (
+  id             INT AUTO_INCREMENT PRIMARY KEY,
+  subject_id     INT NOT NULL,
+  topic_id       INT,
+  text           TEXT NOT NULL,
+  difficulty     ENUM('easy','medium','hard') DEFAULT 'easy',
+  correct_option CHAR(1) NOT NULL,
+  explanation    TEXT,
+  image_url      VARCHAR(500),
+  question_type  ENUM('text','image') DEFAULT 'text',
+  is_active      TINYINT(1) DEFAULT 1,
+  created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE CASCADE,
+  FOREIGN KEY (topic_id)   REFERENCES topics(id) ON DELETE SET NULL
+)`,
 
     // ── Choice ─────────────────────────────────────────────
     `CREATE TABLE IF NOT EXISTS choices (

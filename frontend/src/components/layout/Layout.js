@@ -47,8 +47,7 @@ export default function Layout() {
             <Link to="/exams/ssc">SSC</Link>
             <Link to="/exams/railway">Railway</Link>
             <Link to="/exams/banking">Banking</Link>
-            <Link to="/admin/upload-questions">Upload Questions</Link>
-            <Link to="/admin/create-test">Create Mock/Test</Link>
+            <Link to="/admin/login">Admin Panel</Link>
           </div>
           <div>
             <h5>Ads</h5>

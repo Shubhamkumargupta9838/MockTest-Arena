@@ -1,0 +1,115 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* --primary was not defined in :root; use a darker accent for the gradient */
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  padding: 20px;
+}
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.login-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  /* make sure text inside the white card is dark for readability */
+  color: var(--dark);
+}
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.brand-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.login-header h1 {
+  font-size: 28px;
+  margin: 12px 0 0 0;
+  color: #0a0a0a;
+}
+.login-header .subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 8px 0 0 0;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark);
+  text-transform: uppercase;
+}
+.form-group input {
+  padding: 12px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  
+  color: var(--dark);
+  background: #ffffff;
+}
+.form-group input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(78, 168, 255, 0.1);
+}
+.error-message {
+  background: rgba(255, 93, 93, 0.1);
+  border: 1px solid rgba(255, 93, 93, 0.3);
+  color: var(--danger);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.login-hint {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+.login-hint p {
+  font-size: 12px;
+  margin: 0;
+}
+
+
+.login-form .form-group input {
+  color: #111; /* or var(--dark) */
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.12);
+}
+.login-form .form-group input::placeholder {
+  color: rgba(0,0,0,0.45);
+}
+.login-form .form-group input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(78,168,255,0.1);
+  outline: none;
+}
