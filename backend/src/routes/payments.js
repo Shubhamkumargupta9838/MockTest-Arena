@@ -1,6 +1,7 @@
 const express = require('express');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 const razorpay = new Razorpay({
@@ -8,7 +9,7 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-router.post('/order', async (req, res) => {
+router.post('/order',auth, async (req, res) => {
   try {
     const { amount, currency = 'INR', receipt } = req.body;
     if (!amount || amount <= 0) {
@@ -30,7 +31,7 @@ router.post('/order', async (req, res) => {
   }
 });
 
-router.post('/verify', async (req, res) => {
+router.post('/verify',auth, async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
   const body = `${razorpay_order_id}|${razorpay_payment_id}`;
   const expectedSignature = crypto

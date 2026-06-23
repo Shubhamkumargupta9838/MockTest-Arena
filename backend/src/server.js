@@ -2,10 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const cors    = require('cors');
 const session = require('express-session');
+const cookieParser = require("cookie-parser");
 const rateLimit = require('express-rate-limit');
 const path    = require('path');
 const { requestLogger, errorHandler } = require('./middleware');
-
 const examRoutes   = require('./routes/exams');
 const quizRoutes   = require('./routes/quizzes');
 const resultRoutes = require('./routes/results');
@@ -27,11 +27,12 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+app.use(cookieParser()); 
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'mocktest-secret-dev',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
 }));
 

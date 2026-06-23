@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { authFetch } from '../../utils/auth';
 import './AdminExams.css';
 
 export default function AdminExams() {
@@ -12,7 +13,7 @@ export default function AdminExams() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const metaRes = await fetch('/api/admin/meta', { credentials: 'include' });
+        const metaRes = await authFetch('/api/admin/meta');
         const metaData = await metaRes.json();
         if (metaData && metaData.exams) {
           setExams(metaData.exams);
@@ -40,10 +41,9 @@ export default function AdminExams() {
     }
 
     try {
-      const res = await fetch('/api/admin/exams', {
+      const res = await authFetch('/api/admin/exams', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({
           name: formData.name.trim(),
           description: formData.description.trim(),
