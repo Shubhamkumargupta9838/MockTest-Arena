@@ -1,10 +1,15 @@
 .login-page {
   min-height: 100vh;
+
   display: flex;
   align-items: center;
   justify-content: center;
   /* --primary was not defined in :root; use a darker accent for the gradient */
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  /* background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); */
+  background:
+  linear-gradient(135deg, rgba(17, 24, 39, 0.92), rgba(20, 83, 45, 0.78)),
+  url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1600&q=80');
+  /* background-size: 100%; */
   padding: 20px;
 }
 .login-container {

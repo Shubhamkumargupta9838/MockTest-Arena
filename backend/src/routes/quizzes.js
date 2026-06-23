@@ -33,9 +33,11 @@ async function buildAttemptQuestions(conn, testId) {
 
   const selectedIds = new Set();
   const picked = [];
+  let targetCount = 0;
 
   if (rules.length > 0) {
     for (const rule of rules) {
+      targetCount += Number(rule.question_count) || 0;
       let query = `SELECT id FROM questions WHERE subject_id = ? AND is_active = 1`;
       const params = [rule.subject_id];
       if (rule.topic_id)  { query += ` AND topic_id = ?`;   params.push(rule.topic_id); }
@@ -62,6 +64,7 @@ async function buildAttemptQuestions(conn, testId) {
       [test.pattern_id]
     );
     for (const sec of sections) {
+      targetCount += Number(sec.question_count) || 0;
       const [pool] = await conn.query(
         `SELECT id FROM questions WHERE subject_id = ? AND is_active = 1`,
         [sec.subject_id]
@@ -73,6 +76,19 @@ async function buildAttemptQuestions(conn, testId) {
         picked.push(r.id);
       });
     }
+  }
+
+  // If a test's exact section pools are short, top up from remaining active questions
+  // so the attempt still reaches the configured full length.
+  if (targetCount > 0 && picked.length < targetCount) {
+    const [pool] = await conn.query(
+      `SELECT id FROM questions WHERE is_active = 1`
+    );
+    const available = pool.filter(r => !selectedIds.has(r.id));
+    shuffle(available).slice(0, targetCount - picked.length).forEach(r => {
+      selectedIds.add(r.id);
+      picked.push(r.id);
+    });
   }
 
   if (test.shuffle_questions) shuffle(picked);
