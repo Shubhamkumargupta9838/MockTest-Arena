@@ -35,6 +35,29 @@
 .nav-link:hover, .nav-link.active {
   color: var(--text); background: rgba(175, 161, 161, 0.06);
 }
+.header-cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.user-pill {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+  font-weight: 700;
+  padding: 6px 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+}
+.header-logout {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
 .site-main { flex: 1; }
 .site-footer {
   margin-top: auto; padding: 40px 0 20px;
@@ -48,6 +71,50 @@
 .footer-bottom { margin-top: 20px; text-align: center; color: var(--muted); font-size: 12px; }
 
 @media (max-width: 900px) {
-  .header-grid { grid-template-columns: 1fr auto; }
-  .nav-links { display: none; }
+  .header-grid {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .brand-name {
+    white-space: nowrap;
+  }
+
+  .brand-tag {
+    display: none;
+  }
+
+  .nav-links {
+    grid-column: 1 / -1;
+    order: 3;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px 0 4px;
+    scrollbar-width: thin;
+  }
+
+  .nav-links .nav-link {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .header-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-cta {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .brand-name {
+    font-size: 18px;
+  }
 }

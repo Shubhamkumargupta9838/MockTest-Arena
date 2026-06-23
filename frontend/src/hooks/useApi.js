@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { authFetch } from '../utils/auth';
 
 /**
  * useApi — for imperative POST/PUT/DELETE calls
@@ -15,10 +16,10 @@ export default function useApi() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(url, {
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
-        ...options,
+      const { headers, ...restOptions } = options;
+      const res = await authFetch(url, {
+        ...restOptions,
+        headers: { 'Content-Type': 'application/json', ...(headers || {}) },
       });
       if (!res.ok) {
         const errBody = await res.json().catch(() => ({}));
