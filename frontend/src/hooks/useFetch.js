@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { authFetch } from '../utils/auth';
 
 export default function useFetch(url) {
   const [data, setData]       = useState(null);
@@ -11,7 +12,7 @@ export default function useFetch(url) {
     setLoading(true);
     setError(null);
 
-    fetch(url, { credentials: 'include' })
+    authFetch(url, { credentials: 'include' })
       .then(r => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();

@@ -4,6 +4,7 @@ import './AdminDashboard.css';
 import AdminExams from '../components/admin/AdminExams';
 import AdminTests from '../components/admin/AdminTests';
 import AdminUpload from '../components/admin/AdminUpload';
+import { authFetch, clearLegacyAuthToken } from '../utils/auth';
 
 export default function AdminDashboard() {
   const [user, setUser] = useState(null);
@@ -11,10 +12,10 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/auth/me', { credentials: 'include' })
+    authFetch('/api/auth/me')
       .then(r => r.json())
       .then(data => {
-        if (!data.authenticated) {
+        if (!data.authenticated || !data.admin) {
           navigate('/admin/login');
         } else {
           setUser(data.user);
@@ -24,7 +25,8 @@ export default function AdminDashboard() {
   }, [navigate]);
 
   const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    await authFetch('/api/auth/logout', { method: 'POST' });
+    clearLegacyAuthToken();
     navigate('/admin/login');
   };
 
@@ -36,7 +38,7 @@ export default function AdminDashboard() {
         <div className="admin-header-content">
           <h1>Admin Dashboard</h1>
           <div className="admin-header-actions">
-            <span className="user-info">👤 {user.username}</span>
+            <span className="user-info">👤 {user.username || user.name || user.email}</span>
             <button onClick={handleLogout} className="btn btn-light btn-sm">
               Logout
             </button>

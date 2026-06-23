@@ -7,9 +7,9 @@ import ExamPage from './pages/ExamPage';
 import TestListPage from './pages/TestListPage';
 import TakeTestPage from './pages/TakeTestPage';
 import ResultPage from './pages/ResultPage';
-import UploadPage from './pages/UploadPage';
 import CreateTestPage from './pages/CreateTestPage';
 import LoginPage from './pages/LoginPage';
+import UserAuthPage from './pages/UserAuthPage';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFoundPage from './pages/NotFoundPage';
 import TypingTest from './components/TypingTest/TypingTest';
@@ -28,10 +28,11 @@ export default function App() {
           <Route path="/exams/:categorySlug/:examSlug/mock"     element={<TestListPage mode="mock" />} />
           <Route path="/results/:attemptId"                     element={<ResultPage />} />
           <Route path="/payment"                                element={<PaymentPage />} />
+          <Route path="/user/login"                             element={<UserAuthPage mode="login" />} />
+          <Route path="/user/register"                          element={<UserAuthPage mode="register" />} />
           <Route path="/admin/login"                            element={<LoginPage />} />
+          <Route path="/admin/create-test"                      element={<CreateTestPage/>}/>
           <Route path="/admin/dashboard"                        element={<AdminDashboard />} />
-          <Route path="/admin/upload-questions"                 element={<UploadPage />} />
-          <Route path="/admin/create-test"                      element={<CreateTestPage />} />
           <Route path="/typing"                                 element={<TypingTest />} />
           <Route path="*"                                       element={<NotFoundPage />} />
         </Route>

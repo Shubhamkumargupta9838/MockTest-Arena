@@ -1,8 +1,36 @@
 import React from 'react';
-import { Outlet, Link, NavLink } from 'react-router-dom';
+import { Outlet, Link, NavLink, useNavigate } from 'react-router-dom';
+import { authFetch, clearLegacyAuthToken } from '../../utils/auth';
 import './Layout.css';
 
 export default function Layout() {
+  const [user, setUser] = React.useState(null);
+  const navigate = useNavigate();
+
+  const loadUser = React.useCallback(() => {
+    authFetch('/api/auth/me')
+      .then(r => r.json())
+      .then(data => {
+        setUser(data.authenticated && !data.admin ? data.user : null);
+      })
+      .catch(() => setUser(null));
+  }, []);
+
+  React.useEffect(() => {
+    clearLegacyAuthToken();
+    loadUser();
+    window.addEventListener('auth:changed', loadUser);
+
+    return () => window.removeEventListener('auth:changed', loadUser);
+  }, [loadUser]);
+
+  const handleLogout = async () => {
+    await authFetch('/api/auth/logout', { method: 'POST' });
+    clearLegacyAuthToken();
+    setUser(null);
+    navigate('/user/login');
+  };
+
   return (
     <>
       <header className="site-header">
@@ -18,16 +46,29 @@ export default function Layout() {
             <NavLink to="/exams/banking" className="nav-link">Banking</NavLink>
             <NavLink to="/typing" className="nav-link" style={{
               backgroundColor: "#eac055",
-              padding: "6px 12px",
+              padding: "8px 10px",
               borderRadius: "6px",
+              fontSize: "14px",
+              textAlign:"center",
               color: "black",
               textDecoration: "none"
             }}>Typing</NavLink>
           </nav>
           <div className="header-cta">
             <Link to="/" className="btn btn-primary">Free Mock Test</Link>
-            <Link to="/user/login" className="nav-link" style={{marginLeft:"5px"}}>Login</Link>
-            <Link to="/user/register" className="nav-link" style={{marginLeft:"5px"}}>Register</Link>
+            {user ? (
+              <>
+                <span className="user-pill">{user.name || user.email}</span>
+                <button type="button" className="nav-link header-logout" onClick={handleLogout}>
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/user/login" className="nav-link">Login</Link>
+                <Link to="/user/register" className="nav-link">Register</Link>
+              </>
+            )}
           </div>
         </div>
       </header>

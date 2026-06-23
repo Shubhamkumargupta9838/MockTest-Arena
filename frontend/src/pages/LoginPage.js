@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authFetch } from '../utils/auth';
 import './LoginPage.css';
 
 export default function LoginPage() {
@@ -10,10 +11,10 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/auth/me', { credentials: 'include' })
+    authFetch('/api/auth/me')
       .then(r => r.json())
       .then(data => {
-        if (data.authenticated) navigate('/admin/dashboard');
+        if (data.authenticated && data.admin) navigate('/admin/dashboard');
       })
       .catch(() => {});
   }, [navigate]);
@@ -24,10 +25,9 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await authFetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ username, password }),
       });
       const data = await res.json();

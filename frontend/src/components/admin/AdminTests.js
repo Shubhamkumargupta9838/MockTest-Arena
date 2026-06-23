@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { authFetch } from '../../utils/auth';
 import './AdminTests.css';
 
 export default function AdminTests() {
@@ -13,7 +14,7 @@ export default function AdminTests() {
     setError(null);
     try {
       const query = selectedMode && selectedMode !== 'all' ? `?mode=${selectedMode}` : '';
-      const res = await fetch(`/api/admin/tests${query}`, { credentials: 'include' });
+      const res = await authFetch(`/api/admin/tests${query}`);
       const data = await res.json();
       if (data.tests) {
         setTests(data.tests);

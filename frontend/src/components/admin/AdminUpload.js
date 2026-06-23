@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { authFetch } from '../../utils/auth';
 import './AdminUpload.css';
 
 export default function AdminUpload() {
@@ -12,7 +13,7 @@ export default function AdminUpload() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch('/api/upload/meta', { credentials: 'include' })
+    authFetch('/api/upload/meta')
       .then(r => r.json())
       .then(setMeta)
       .catch(() => {});
@@ -39,9 +40,8 @@ export default function AdminUpload() {
     if (practiceTitle) formData.append('practice_title', practiceTitle);
 
     try {
-      const res = await fetch('/api/upload/questions', {
+      const res = await authFetch('/api/upload/questions', {
         method: 'POST',
-        credentials: 'include',
         body: formData,
       });
       const data = await res.json();

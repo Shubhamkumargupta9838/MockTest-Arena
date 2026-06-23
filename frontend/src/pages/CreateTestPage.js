@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { authFetch } from '../utils/auth';
 import './CreateTestPage.css';
 
 export default function CreateTestPage() {
@@ -13,7 +14,7 @@ export default function CreateTestPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch('/api/admin/meta', { credentials: 'include' })
+    authFetch('/api/admin/meta')
       .then(res => res.json())
       .then(data => setMeta(data))
       .catch(() => setMeta({ exams: [], sections: [], topics: [] }));
@@ -56,10 +57,9 @@ export default function CreateTestPage() {
     setResult(null);
 
     try {
-      const res = await fetch('/api/admin/tests', {
+      const res = await authFetch('/api/admin/tests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({
           exam_id: examId,
           title: title.trim(),
